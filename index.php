@@ -7,6 +7,7 @@
 
   <script>
 
+  var stored_fix = 0;
 
   function plot() {
     var fixed_cost = document.getElementById("fixed");
@@ -31,8 +32,9 @@
     var ctx = c.getContext("2d");
     ctx.beginPath();
     ctx.moveTo(0, (c.height - stored_fix));
-    ctx.lineTo(800,1000);
-    ctx.lineWidth = 2;
+    ctx.lineTo(c.width, (c.height - stored_fix - ad_spend.value));
+    //ctx.lineTo(800,1000)
+    //ctx.lineWidth = 2;
     ctx.strokeStyle = "red";
     ctx.stroke();
   }
@@ -76,7 +78,7 @@ function drawBoard(){
     <input placeholder="fixed cost" type="text" id="fixed" onchange="plot()"/>
 
     <label>Current Ad Spend:</label>
-    <input placeholder="current ad spend" id="ad" onchange="adPlot();"/>
+    <input placeholder="current ad spend" id="ad" onchange="adPlot()"/>
 
     <label id="change">Revenue:</label>
     <input placeholder="revenue"/>
