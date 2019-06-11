@@ -25,6 +25,7 @@
   <div class="graph-body">
     <!--<iframe src="https://www.desmos.com/calculator/kjgsiieksf?embed"></iframe>-->
     <iframe src="https://www.desmos.com/calculator/2mesganymt"></iframe>
+    <canvas id="myCanvas" width="200" height="100"></canvas>
   </div>
 </div>
 
