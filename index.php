@@ -10,22 +10,20 @@
   var stored_fix = 0;
 
   function graph() {
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    ctx.beginPath();
-    ctx.clearRect(0, 0, c.width, c.height);
-
+    clear();
     drawBoard();
     plotFixed();
     plotAd();
   }
 
+  function clear() {
+    ctx.beginPath();
+    ctx.clearRect(0,0, c.width, c.height);
+  }
+
   function plotFixed() {
     var fixed_cost = document.getElementById("fixed");
     stored_fix = fixed_cost.value;
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-
     ctx.beginPath();
     ctx.moveTo(0, (c.height - fixed_cost.value)); <!--origin-->
     ctx.lineTo(c.width, (c.height - fixed_cost.value));
@@ -35,8 +33,6 @@
 
   function plotAd() {
     var ad_spend = document.getElementById("ad");
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
     ctx.beginPath();
     ctx.moveTo(0, (c.height - stored_fix));
     ctx.lineTo(c.width, (c.height - stored_fix - ad_spend.value));
@@ -44,17 +40,14 @@
     ctx.stroke();
   }
 
-
-// Box width
-var bw = 1000;
-// Box height
-var bh = 800;
-// Padding
-var p = 0;
-
 function drawBoard(){
-  var c = document.getElementById("myCanvas");
-  var ctx = c.getContext("2d");
+  // Box width
+  var bw = 1000;
+  // Box height
+  var bh = 800;
+  // Padding
+  var p = 0;
+  
   ctx.beginPath();
   ctx.strokeStyle = "gainsboro";
     for (var x = 0; x <= bw; x += 40) {
@@ -89,14 +82,13 @@ function drawBoard(){
     <input placeholder="revenue"/>
   </div>
   <div class="graph-body">
-    <!--<iframe src="https://www.desmos.com/calculator/kjgsiieksf?embed"></iframe>-->
-    <!--<iframe src="https://www.desmos.com/calculator/2mesganymt"></iframe>-->
     <canvas id="myCanvas" width="1000" height="800"></canvas>
   </div>
 </div>
 
 <script>
-
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
 </script>
 
 </body>
