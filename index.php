@@ -9,15 +9,22 @@
 
   var stored_fix = 0;
 
-  function plot() {
-    var fixed_cost = document.getElementById("fixed");
-    stored_fix = fixed_cost.value;
+  function graph() {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.beginPath();
     ctx.clearRect(0, 0, c.width, c.height);
 
     drawBoard();
+    plotFixed();
+    plotAd();
+  }
+
+  function plotFixed() {
+    var fixed_cost = document.getElementById("fixed");
+    stored_fix = fixed_cost.value;
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
 
     ctx.beginPath();
     ctx.moveTo(0, (c.height - fixed_cost.value)); <!--origin-->
@@ -26,15 +33,13 @@
     ctx.stroke();
   }
 
-  function adPlot() {
+  function plotAd() {
     var ad_spend = document.getElementById("ad");
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.beginPath();
     ctx.moveTo(0, (c.height - stored_fix));
     ctx.lineTo(c.width, (c.height - stored_fix - ad_spend.value));
-    //ctx.lineTo(800,1000)
-    //ctx.lineWidth = 2;
     ctx.strokeStyle = "red";
     ctx.stroke();
   }
@@ -75,10 +80,10 @@ function drawBoard(){
 <div class="container">
   <div class="input-body">
     <label>Fixed Cost:</label>
-    <input placeholder="fixed cost" type="text" id="fixed" onchange="plot()"/>
+    <input placeholder="fixed cost" type="text" id="fixed" onchange="graph()"/>
 
     <label>Current Ad Spend:</label>
-    <input placeholder="current ad spend" id="ad" onchange="adPlot()"/>
+    <input placeholder="current ad spend" id="ad" onchange="graph()"/>
 
     <label id="change">Revenue:</label>
     <input placeholder="revenue"/>
