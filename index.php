@@ -46,9 +46,9 @@
 
 function drawBoard() {
   // Box width
-  var bw = 1000;
+  var bw = 900;
   // Box height
-  var bh = 800;
+  var bh = 700;
   // Padding
   var p = 0;
 
@@ -69,7 +69,6 @@ function drawBoard() {
 function colorLine() {
   var revBox = document.getElementById("color");
   color = revBox.value;
-  console.log(color);
 }
 
   </script>
@@ -77,28 +76,30 @@ function colorLine() {
 </head>
 <body onload="drawBoard();">
 
-<div class="header">
-  <h1> J-Graph </h1>
+<ul>
+  <li id="main">J-Graph</li>
+  <li><a href="#">About</a></li>
+  <li><a href="#">Reset</a></li>
+</ul>
+
+
+<div class="graph-body">
+    <canvas id="myCanvas" width="800" height="600"></canvas>
 </div>
 
-<div class="container">
-  <div class="input-body">
-    <label>Fixed Cost:</label>
-    <input placeholder="fixed cost" type="text" id="fixed" onchange="graph()"/>
+<div class="input-body">
+  <label>Fixed Cost:</label>
+  <input placeholder="fixed cost" type="text" id="fixed" onchange="graph()"/>
 
-    <label>Current Ad Spend:</label>
-    <input placeholder="current ad spend" id="ad" onchange="graph()"/>
+  <label>Current Ad Spend:</label>
+  <input placeholder="current ad spend" id="ad" onchange="graph()"/>
 
-    <label id="change">Revenue:</label>
-    <input placeholder="revenue" id="revenue" onchange="graph()"/>
+  <label id="change">Revenue:</label>
+  <input placeholder="revenue" id="revenue" onchange="graph()"/>
 
-    <input type="color" value="#ff0000" id="color" onchange="graph()"/>
-
-  </div>
-  <div class="graph-body">
-    <canvas id="myCanvas" width="1000" height="800"></canvas>
-  </div>
+  <input type="color" value="#ff0000" id="color" onchange="graph()"/>
 </div>
+
 <div id="bigolediv"></div>
 
 <script>
