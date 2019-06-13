@@ -8,11 +8,13 @@
   <script>
 
   var stored_fix = 0;
+  var color = "red";
 
   function graph() {
     clear();
     drawBoard();
     plotFixed();
+    colorLine();
     plotAd();
   }
 
@@ -36,18 +38,20 @@
     ctx.beginPath();
     ctx.moveTo(0, (c.height - stored_fix));
     ctx.lineTo(c.width, (c.height - stored_fix - ad_spend.value));
-    ctx.strokeStyle = "red";
-    ctx.stroke();
+    ctx.strokeStyle = color;
+    if(ad_spend.value > 0) {
+      ctx.stroke();
+    }
   }
 
-function drawBoard(){
+function drawBoard() {
   // Box width
   var bw = 1000;
   // Box height
   var bh = 800;
   // Padding
   var p = 0;
-  
+
   ctx.beginPath();
   ctx.strokeStyle = "gainsboro";
     for (var x = 0; x <= bw; x += 40) {
@@ -61,6 +65,13 @@ function drawBoard(){
     }
     ctx.stroke();
 }
+
+function colorLine() {
+  var revBox = document.getElementById("color");
+  color = revBox.value;
+  console.log(color);
+}
+
   </script>
 
 </head>
@@ -79,12 +90,16 @@ function drawBoard(){
     <input placeholder="current ad spend" id="ad" onchange="graph()"/>
 
     <label id="change">Revenue:</label>
-    <input placeholder="revenue"/>
+    <input placeholder="revenue" id="revenue" onchange="graph()"/>
+
+    <input type="color" value="#ff0000" id="color" onchange="graph()"/>
+
   </div>
   <div class="graph-body">
     <canvas id="myCanvas" width="1000" height="800"></canvas>
   </div>
 </div>
+<div id="bigolediv"></div>
 
 <script>
   var c = document.getElementById("myCanvas");
