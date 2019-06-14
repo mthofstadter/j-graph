@@ -32,6 +32,11 @@ li a:hover {
 	background-color: #9F0000;
 }
 
+#resetButton {
+	border-right: 1px solid white;
+	border-left: 1px solid white;
+}
+
 #main {
 	float: left;
 	display: block;
@@ -43,47 +48,60 @@ li a:hover {
 	font-weight: bold;
 }
 
-
-h1 {
-  color: white;
-  font-weight: bold;
-	margin-top: 0px;
+.main-body {
+	display: flex;
 }
 
 .graph-body {
 	margin-top: 30px;
+	margin-left: 60px;
+}
+
+.label-body {
+	display: flex;
+	flex-direction: column;
+	margin-left: 30px;
+	margin-right: 15px;
+	width: 5%;
+	justify-content: center;
 }
 
 .input-body {
 	display: flex;
-	margin-top: 5%;
-	margin-left: auto;
-	margin-right: auto;
-	width: 100%;
+	flex-direction: column;
+	width: 10%;
+	justify-content: center;
 }
-
-
 
 input {
   border: 1px solid black;
-  width: 115px;
+  width: 50px;
   text-align: center;
   padding: 5px 2px 5px 2px;
-  margin: 10px 0px 10px 0px;
+  margin: 12.5px 0px 12.5px 0px;
 }
 
 input:hover {
-  border: 1px dashed limegreen;
+  background-color: lightblue;
+}
+
+input:focus {
+	background-color: white;
+}
+
+#color {
+	position: absolute;
+	margin-top: 105px;
 }
 
 label {
 	font-size: 20px;
+	margin: 15px 0px 15px 0px;
+	text-align: right;
 }
 
 canvas {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
   border: 2px solid black;
 }
 
