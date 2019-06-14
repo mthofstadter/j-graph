@@ -47,8 +47,8 @@ function plotFixed() {
 function plotAd() {
   var ad_spend = document.getElementById("ad");
   ctx.beginPath();
-  ctx.moveTo(0, (c.height - stored_fix));
-  ctx.lineTo(c.width, (c.height - stored_fix - ad_spend.value));
+  ctx.moveTo(0, (c.height - c.height/10));
+  ctx.lineTo(c.width, (c.height - stored_fix * ratio - ad_spend.value));
   ctx.strokeStyle = color;
   if(ad_spend.value > 0) {
     ctx.stroke();
