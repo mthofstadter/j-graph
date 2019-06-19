@@ -38,11 +38,15 @@
 
   </div>
 
-  <div id="bigolediv"></div>
+  <div id="bigolediv">
+    <canvas id="myCanvas2" width="1200" height="800"></canvas>
+  </div>
 
   <script>
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
+    var canvas2 = document.getElementById("myCanvas2");
+    var ctx2 = canvas2.getContext("2d");
   </script>
 
   </body>

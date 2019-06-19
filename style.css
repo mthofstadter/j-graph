@@ -5,6 +5,7 @@ body {
 
 ul {
 	position: sticky;
+	z-index: 99;
 	top: 0px;
 	list-style-type: none;
 	margin: 0;

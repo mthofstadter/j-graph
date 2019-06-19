@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 function init() {
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
+  var canvas2 = document.getElementById("myCanvas2");
+  var ctx2 = canvas2.getContext("2d");
   drawBoard();
 }
 
@@ -32,7 +34,7 @@ function clear() {
 function plotFixed() {
   var fixed_cost = document.getElementById("fixed");
   stored_fix = fixed_cost.value;
-  ratio = stored_fix / c.height;
+  ratio = (c.height / 10) / stored_fix;
   ctx.beginPath();
   //ctx.moveTo(0, (c.height - fixed_cost.value)); <!--origin-->
   //ctx.lineTo(c.width, (c.height - fixed_cost.value));
@@ -45,10 +47,11 @@ function plotFixed() {
 }
 
 function plotAd() {
+  console.log(ratio);
   var ad_spend = document.getElementById("ad");
   ctx.beginPath();
   ctx.moveTo(0, (c.height - c.height/10));
-  ctx.lineTo(c.width, (c.height - stored_fix * ratio - ad_spend.value));
+  ctx.lineTo(c.width, (c.height - c.height/10 - (ratio * ad_spend.value)));
   ctx.strokeStyle = color;
   if(ad_spend.value > 0) {
     ctx.stroke();
@@ -58,6 +61,7 @@ function plotAd() {
 function reset() {
   document.getElementById("ad").value = "";
   document.getElementById("fixed").value = "";
+  document.getElementById("revenue").value = "";
   document.getElementById("color").value = "#ff0000";
   graph();
 }
@@ -92,3 +96,36 @@ function colorLine() {
   var revBox = document.getElementById("color");
   color = revBox.value;
 }
+
+
+var width = canvas2.width;
+var height = canvas2.height;
+var plot = function plot(fn, range) {
+        var widthScale = (width / (range[1] - range[0])),
+            heightScale = (height / (range[3] - range[2])),
+            first = true;
+
+        ctx.beginPath();
+
+        for (var x = 0; x < width; x++) {
+            var xFnVal = (x / widthScale) - range[0],
+                yGVal = (fn(xFnVal) - range[2]) * heightScale;
+
+            yGVal = height - yGVal; // 0,0 is top-left
+
+            if (first) {
+                ctx2.moveTo(x, yGVal);
+                first = false;
+            }
+            else {
+                ctx2.lineTo(x, yGVal);
+            }
+        }
+
+        ctx2.strokeStyle = "red";
+        ctx2.lineWidth = 3;
+        ctx2.stroke();
+    };
+plot(function (x) {
+    return Math.sin(x) + Math.sin(x * 2);
+}, [0, Math.PI * 4, -4, 4]);
