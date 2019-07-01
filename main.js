@@ -3,6 +3,12 @@
 var stored_fix = 0;
 var ratio = 0;
 var color = "red";
+var h = 800;
+var w = 1200;
+var ch = h;
+var cw = w;
+var subStepCount = 10;  // number of sub setps
+var scale = 1;         // scale of the plot
 
 // Runs the script on document loaded
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -12,8 +18,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 function init() {
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
-  var canvas2 = document.getElementById("myCanvas2");
-  var ctx2 = canvas2.getContext("2d");
+  var c2 = document.getElementById("myCanvas2");
+  var ctx2 = c2.getContext("2d");
+  h = c2.height;
+  w = c2.width;
   drawBoard();
 }
 
@@ -24,11 +32,14 @@ function graph() {
   plotFixed();
   colorLine();
   plotAd();
+  callPlot();
 }
 
 function clear() {
   ctx.beginPath();
   ctx.clearRect(0,0, c.width, c.height);
+  ctx2.beginPath();
+  ctx2.clearRect(0,0, c.width, c.height);
 }
 
 function plotFixed() {
@@ -36,8 +47,6 @@ function plotFixed() {
   stored_fix = fixed_cost.value;
   ratio = (c.height / 10) / stored_fix;
   ctx.beginPath();
-  //ctx.moveTo(0, (c.height - fixed_cost.value)); <!--origin-->
-  //ctx.lineTo(c.width, (c.height - fixed_cost.value));
   ctx.moveTo(0, c.height - c.height/10);
   ctx.lineTo(c.width, c.height - c.height/10);
   ctx.strokeStyle = "blue";
@@ -93,39 +102,70 @@ ctx.strokeStyle = "gainsboro";
 }
 
 function colorLine() {
-  var revBox = document.getElementById("color");
-  color = revBox.value;
+  var colorBox = document.getElementById("color");
+  color = colorBox.value;
 }
 
 
-var width = canvas2.width;
-var height = canvas2.height;
-var plot = function plot(fn, range) {
-        var widthScale = (width / (range[1] - range[0])),
-            heightScale = (height / (range[3] - range[2])),
-            first = true;
 
-        ctx.beginPath();
+   function plot(func,col,lineWidth){
+     console.log(func);
+     console.log(typeof func);
+     var invScale = 1 / scale;    // inverted scale is the size of a pixel
+     var top = ch * invScale;     // get top and bottom
+     var bottom = -ch * invScale;
+     var subStep = invScale / subStepCount; // get the sub steps between pixels
+     var x,y,yy,xx,subX;                    // xx,yy are the coords of prev point
+     var start = (-cw - 1) * invScale;      // get the start and end
+     var end = (cw + 1) * invScale;
+     // set render styles
+     ctx2.strokeStyle = col;
+     ctx2.lineWidth = lineWidth * invScale; // scale line to be constant size
 
-        for (var x = 0; x < width; x++) {
-            var xFnVal = (x / widthScale) - range[0],
-                yGVal = (fn(xFnVal) - range[2]) * heightScale;
+     ctx2.beginPath();
+     for(x = start; x < end; x += invScale){ // pixel steps
+         for(subX = 0; subX < invScale; subX += subStep){  // sub steps
+             y = func(x+subX);                    // get y for x
+             if(yy !== undefined){                // is this not the first point
+                 if(y > top || y < bottom){       // this y outside ?
+                     if(yy < top && yy > bottom){ // last yy inside?
+                         ctx2.lineTo(x + subX,y);
+                     }
+                 } else {                         // this y must be inside
+                     if(yy > top || yy < bottom){ // was last yy outside
+                         ctx2.moveTo(xx,yy);       // start a new path
+                     }
+                     if(subX === 0){              // are we at a pixel
+                         if(y > bottom && y < top){  // are we inside
+                             // if the step is large then might be a line break
+                             if(Math.abs(yy-y) > (top - bottom) * (1/3)){
+                                 ctx2.moveTo(x,y);
+                             }else{
+                                 ctx2.lineTo(x,y);
+                             }
+                         }
+                     }
+                 }
+             }else{
+                 if(subX === 0){
+                     ctx2.moveTo(x,y);
+                 }
+             }
+             yy  = y;
+             xx = x+ subX;
+         }
+     }
+     ctx2.stroke();
+ }
 
-            yGVal = height - yGVal; // 0,0 is top-left
+ function callPlot() {
+   ctx2.setTransform(scale,0,0,-scale,0, h);
+   //plot((x)=>Math.tan(Math.cos(x/2) * 10),"#F88",1);
+   //plot((x)=>Math.tan(x),"blue",2);
+   var revenue = document.getElementById("revenue");
+   revenue = revenue.value;
+   var equation = eval("(x)=>" + revenue);
 
-            if (first) {
-                ctx2.moveTo(x, yGVal);
-                first = false;
-            }
-            else {
-                ctx2.lineTo(x, yGVal);
-            }
-        }
-
-        ctx2.strokeStyle = "red";
-        ctx2.lineWidth = 3;
-        ctx2.stroke();
-    };
-plot(function (x) {
-    return Math.sin(x) + Math.sin(x * 2);
-}, [0, Math.PI * 4, -4, 4]);
+   plot((x)=>400,"green",1);
+   plot(equation,"purple",1);
+ }

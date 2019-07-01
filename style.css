@@ -107,7 +107,9 @@ canvas {
 }
 
 #bigolediv {
-	height: 1000px;
+	height: 850px;
+	margin-top: 30px;
+	margin-left: 60px;
 }
 
 /*
