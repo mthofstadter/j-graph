@@ -2,7 +2,7 @@
 <html>
 <head>
   <link rel='stylesheet' type='text/css' href='style.css' />
-  <script src="main.js"></script>
+  <script src="/j-graph/main.js"></script>
 
   <title>J-Graph</title>
 
@@ -30,15 +30,16 @@
       <label>Revenue:</label>
   </div>
   <div class="input-body">
-    <input type="text" id="fixed" onchange="graph()"/>
-    <input id="ad" onchange="graph()"/>
-    <input id="revenue" onchange="graph()"/>
+    <input type="text" id="fixed" onchange="graph()" onfocus="callFixed()"/>
+    <input id="ad" onchange="graph()" onfocus="callAd()"/>
+    <input id="revenue" onchange="graph()" onfocus="callRevenue()" placeholder="Math.pow((x-590),2)*(-0.002)+700"/>
     <input type="color" value="#ff0000" id="color" onchange="graph()"/>
   </div>
 
   </div>
 
-  <div id="bigolediv"></div>
+  <div id="bigolediv">
+  </div>
 
   <script>
     var c = document.getElementById("myCanvas");

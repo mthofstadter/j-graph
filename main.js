@@ -49,6 +49,7 @@ function callRevenue() {
 function graph() {
   clear();
   drawBoard();
+  ctx.lineWidth = 3;
   colorLine();
   plotFixed();
   plotAd();
@@ -89,8 +90,11 @@ function reset() {
   document.getElementById("fixed").value = "";
   document.getElementById("ad").value = "";
   document.getElementById("revenue").value = "";
-  //document.getElementById("color").value = "#000000";
+  colorFixed = "#0000ff";
+  colorAd = "#ff0000";
+  colorRevenue = "#008000";
   graph();
+  document.getElementById("color").value = "#000000";
 }
 
 function about() {
@@ -107,6 +111,7 @@ var p = 0;
 
 ctx.beginPath();
 ctx.strokeStyle = "gainsboro";
+ctx.lineWidth = 1;
   for (var x = 0; x <= bw; x += 40) {
       ctx.moveTo(0.5 + x + p, p);
       ctx.lineTo(0.5 + x + p, bh + p);
@@ -191,7 +196,7 @@ function colorLine() {
 
    var equation = eval("(x)=>" + revenue);
 
-   plot(equation,colorRevenue,1);
+   plot(equation,colorRevenue,3);
    //plot((x)=>Math.tan(Math.cos(x/2) * 10),"#F88",1);
    //plot((x)=>Math.tan(x),"blue",2);
  }
