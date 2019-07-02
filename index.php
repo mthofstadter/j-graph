@@ -30,23 +30,20 @@
       <label>Revenue:</label>
   </div>
   <div class="input-body">
-    <input type="text" id="fixed" onchange="graph()"/>
-    <input id="ad" onchange="graph()"/>
-    <input id="revenue" onchange="graph()"/>
+    <input type="text" id="fixed" onchange="graph()" onfocus="callFixed()"/>
+    <input id="ad" onchange="graph()" onfocus="callAd()"/>
+    <input id="revenue" onchange="graph()" onfocus="callRevenue()" placeholder="Math.pow((x-590),2)*(-0.002)+700"/>
     <input type="color" value="#ff0000" id="color" onchange="graph()"/>
   </div>
 
   </div>
 
   <div id="bigolediv">
-    <canvas id="myCanvas2" width="1200" height="800"></canvas>
   </div>
 
   <script>
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
-    var c2 = document.getElementById("myCanvas2");
-    var ctx2 = c2.getContext("2d");
   </script>
 
   </body>

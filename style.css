@@ -70,7 +70,7 @@ li a:hover {
 .input-body {
 	display: flex;
 	flex-direction: column;
-	width: 10%;
+	width: 15%;
 	justify-content: center;
 }
 
@@ -83,11 +83,17 @@ input {
 }
 
 input:hover {
-  background-color: lightblue;
+  /*background-color: lightblue;*/
 }
 
 input:focus {
 	background-color: white;
+}
+
+#revenue {
+	width: 210px;
+	text-align: left;
+	padding-left: 10px;
 }
 
 #color {
@@ -107,7 +113,8 @@ canvas {
 }
 
 #bigolediv {
-	height: 850px;
+	/*height: 850px;*/
+	height: 100px;
 	margin-top: 30px;
 	margin-left: 60px;
 }

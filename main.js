@@ -2,13 +2,18 @@
 
 var stored_fix = 0;
 var ratio = 0;
-var color = "red";
+var color = "#000000";
 var h = 800;
 var w = 1200;
 var ch = h;
 var cw = w;
 var subStepCount = 10;  // number of sub setps
 var scale = 1;         // scale of the plot
+
+var colorFocused = -1;
+var colorFixed = "#0000ff";
+var colorAd = "#ff0000";
+var colorRevenue = "#008000";
 
 // Runs the script on document loaded
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -18,19 +23,34 @@ document.addEventListener("DOMContentLoaded", function(event) {
 function init() {
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
-  var c2 = document.getElementById("myCanvas2");
-  var ctx2 = c2.getContext("2d");
-  h = c2.height;
-  w = c2.width;
+  ctx.setTransform(scale,0,0,-scale,0, h);
   drawBoard();
+}
+
+function callFixed() {
+  document.getElementById("color").value = colorFixed;
+  colorFocused = 0;
+  graph();
+}
+
+function callAd() {
+  document.getElementById("color").value = colorAd;
+  colorFocused = 1;
+  graph();
+}
+
+function callRevenue() {
+  document.getElementById("color").value = colorRevenue;
+  colorFocused = 2;
+  graph();
 }
 
 
 function graph() {
   clear();
   drawBoard();
-  plotFixed();
   colorLine();
+  plotFixed();
   plotAd();
   callPlot();
 }
@@ -38,8 +58,6 @@ function graph() {
 function clear() {
   ctx.beginPath();
   ctx.clearRect(0,0, c.width, c.height);
-  ctx2.beginPath();
-  ctx2.clearRect(0,0, c.width, c.height);
 }
 
 function plotFixed() {
@@ -47,9 +65,9 @@ function plotFixed() {
   stored_fix = fixed_cost.value;
   ratio = (c.height / 10) / stored_fix;
   ctx.beginPath();
-  ctx.moveTo(0, c.height - c.height/10);
-  ctx.lineTo(c.width, c.height - c.height/10);
-  ctx.strokeStyle = "blue";
+  ctx.moveTo(0, c.height/10);
+  ctx.lineTo(c.width, c.height/10);
+  ctx.strokeStyle = colorFixed;
   if(fixed_cost.value > 0) {
     ctx.stroke();
   }
@@ -59,19 +77,19 @@ function plotAd() {
   console.log(ratio);
   var ad_spend = document.getElementById("ad");
   ctx.beginPath();
-  ctx.moveTo(0, (c.height - c.height/10));
-  ctx.lineTo(c.width, (c.height - c.height/10 - (ratio * ad_spend.value)));
-  ctx.strokeStyle = color;
+  ctx.moveTo(0, c.height/10);
+  ctx.lineTo(c.width, c.height/10 + (ratio * ad_spend.value));
+  ctx.strokeStyle = colorAd;
   if(ad_spend.value > 0) {
     ctx.stroke();
   }
 }
 
 function reset() {
-  document.getElementById("ad").value = "";
   document.getElementById("fixed").value = "";
+  document.getElementById("ad").value = "";
   document.getElementById("revenue").value = "";
-  document.getElementById("color").value = "#ff0000";
+  //document.getElementById("color").value = "#000000";
   graph();
 }
 
@@ -103,10 +121,16 @@ ctx.strokeStyle = "gainsboro";
 
 function colorLine() {
   var colorBox = document.getElementById("color");
-  color = colorBox.value;
+  if(colorFocused == 0) {
+    colorFixed = colorBox.value;
+  }
+  else if(colorFocused == 1) {
+    colorAd = colorBox.value;
+  }
+  else if(colorFocused == 2) {
+    colorRevenue = colorBox.value;
+  }
 }
-
-
 
    function plot(func,col,lineWidth){
      console.log(func);
@@ -119,53 +143,55 @@ function colorLine() {
      var start = (-cw - 1) * invScale;      // get the start and end
      var end = (cw + 1) * invScale;
      // set render styles
-     ctx2.strokeStyle = col;
-     ctx2.lineWidth = lineWidth * invScale; // scale line to be constant size
+     ctx.strokeStyle = col;
+     ctx.lineWidth = lineWidth * invScale; // scale line to be constant size
 
-     ctx2.beginPath();
+     ctx.beginPath();
      for(x = start; x < end; x += invScale){ // pixel steps
          for(subX = 0; subX < invScale; subX += subStep){  // sub steps
              y = func(x+subX);                    // get y for x
              if(yy !== undefined){                // is this not the first point
                  if(y > top || y < bottom){       // this y outside ?
                      if(yy < top && yy > bottom){ // last yy inside?
-                         ctx2.lineTo(x + subX,y);
+                         ctx.lineTo(x + subX,y);
                      }
                  } else {                         // this y must be inside
                      if(yy > top || yy < bottom){ // was last yy outside
-                         ctx2.moveTo(xx,yy);       // start a new path
+                         ctx.moveTo(xx,yy);       // start a new path
                      }
                      if(subX === 0){              // are we at a pixel
                          if(y > bottom && y < top){  // are we inside
                              // if the step is large then might be a line break
                              if(Math.abs(yy-y) > (top - bottom) * (1/3)){
-                                 ctx2.moveTo(x,y);
+                                 ctx.moveTo(x,y);
                              }else{
-                                 ctx2.lineTo(x,y);
+                                 ctx.lineTo(x,y);
                              }
                          }
                      }
                  }
              }else{
                  if(subX === 0){
-                     ctx2.moveTo(x,y);
+                     ctx.moveTo(x,y);
                  }
              }
              yy  = y;
              xx = x+ subX;
          }
      }
-     ctx2.stroke();
+     ctx.stroke();
  }
 
  function callPlot() {
-   ctx2.setTransform(scale,0,0,-scale,0, h);
-   //plot((x)=>Math.tan(Math.cos(x/2) * 10),"#F88",1);
-   //plot((x)=>Math.tan(x),"blue",2);
    var revenue = document.getElementById("revenue");
    revenue = revenue.value;
+   if(revenue == "") {
+     return;
+   }
+
    var equation = eval("(x)=>" + revenue);
 
-   plot((x)=>400,"green",1);
-   plot(equation,"purple",1);
+   plot(equation,colorRevenue,1);
+   //plot((x)=>Math.tan(Math.cos(x/2) * 10),"#F88",1);
+   //plot((x)=>Math.tan(x),"blue",2);
  }
