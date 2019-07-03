@@ -1,5 +1,3 @@
-
-
 var stored_fix = 0;
 var ratio = 0;
 var color = "#000000";
@@ -47,6 +45,7 @@ function callRevenue() {
 
 
 function graph() {
+  ctx.setTransform(scale,0,0,-scale,0, h);
   clear();
   drawBoard();
   ctx.lineWidth = 3;
@@ -93,6 +92,7 @@ function reset() {
   colorFixed = "#0000ff";
   colorAd = "#ff0000";
   colorRevenue = "#008000";
+  colorFocused = -1;
   graph();
   document.getElementById("color").value = "#000000";
 }
@@ -184,6 +184,8 @@ function colorLine() {
              xx = x+ subX;
          }
      }
+
+     //ctx.lineTo(20,600);
      ctx.stroke();
  }
 

@@ -32,8 +32,9 @@
   <div class="input-body">
     <input type="text" id="fixed" onchange="graph()" onfocus="callFixed()"/>
     <input id="ad" onchange="graph()" onfocus="callAd()"/>
-    <input id="revenue" onchange="graph()" onfocus="callRevenue()" placeholder="Math.pow((x-590),2)*(-0.002)+700"/>
-    <input type="color" value="#ff0000" id="color" onchange="graph()"/>
+    <input id="revenue" onchange="graph()" onfocus="callRevenue()" placeholder="Math.pow((x-590),2)*(-0.002)+700"
+    value="Math.pow((x-590),2)*(-0.002)+700"/>
+    <input type="color" value="#000000" id="color" onchange="graph()"/>
   </div>
 
   </div>
